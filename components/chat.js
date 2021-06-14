@@ -15,6 +15,8 @@ export default class chat extends React.Component{
                 avatar:''
             }
         }
+
+        //Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBxZ8zWwnbOhPw_7jmkys70qo9d0RMgtWw",
             authDomain: "test-4ce0d.firebaseapp.com",
@@ -24,25 +26,35 @@ export default class chat extends React.Component{
             appId: "1:934079458127:web:9beff2b36d4112e5d6333a",
             measurementId: "G-R72MHZCXMN"
           };
+
           if(!firebase.apps.length){
             firebase.initializeApp(firebaseConfig);
           }
           this.referenceChatMessages = firebase.firestore().collection("messages")
-          //this.referenceChatMessages =firebase.firestore().collection('messages').where("uid","==",this.state.uid)
     }
 
     componentDidMount(){
+        //Update the title
+        const {name} = this.props.route.params;
+        this.props.navigation.setOptions({ title: `${name}` });
         // this.referenceChatMessages = firebase.firestore().collection("messages");
         // this.unsubscribe = this.referenceChatMessages.onSnapshot(this.onCollectionUpdate)
+
+        //Authenticate in firebase
         this.authUnsubscribe = firebase.auth().onAuthStateChanged((user)=>{
             if(!user){
                 firebase.auth().signInAnonymously();
             }
             this.setState({
-                uid: user._id,
+                uid: user.uid,
+                user:{
+                    _id:user.uid,
+                    name:name,
+                },
                 messages:[]
             })
             this.unsubscribe = this.referenceChatMessages
+                .where("uid","==",this.state.uid)
                 .orderBy("createdAt","desc")
                 .onSnapshot(this.onCollectionUpdate);
         })
@@ -61,29 +73,24 @@ export default class chat extends React.Component{
             text:data.text,
             createdAt: data.createdAt.toDate(),
             user: data.user
-          })
+          });
         })
-        this.setState({
-          messages
-        })
+        this.setState({messages});
     }    
 
     addMessages(){
         const messages = this.state.messages[0];
-        firebase
-            .firestore()
-            .collection("messages")
-            .add({
-                _id: messages._id,
-                text: messages.text,
-                createdAt: messages.createdAt,
-                user: {
+        firebase.firestore().collection("messages").add({
+            _id: messages._id,
+            text: messages.text,
+            createdAt: messages.createdAt,
+            user: {
                 _id: messages.user._id,
                 name: messages.user.name,
-                },
+            },
         })
-            .then()
-            .catch((error) => console.log("error", error));
+        .then()
+        .catch((error) => console.log("error", error));
     }
 
     onSend(messages=[]){
@@ -98,11 +105,7 @@ export default class chat extends React.Component{
         return(
             <Bubble
                 {...props}
-                wrapperStyle={{
-                    right:{
-                        backgroundColor:'#000'
-                    }
-                }}
+                wrapperStyle={{right:{backgroundColor:'#000'}}}
             />
         )
     }
@@ -117,9 +120,7 @@ export default class chat extends React.Component{
                     renderBubble={this.renderBubble.bind(this)}
                     messages={this.state.messages}
                     onSend={messages=>this.onSend(messages)}
-                    user={{
-                        _id:1
-                    }}
+                    user={this.state.user}
                 />
             {Platform.OS === 'android' ? <KeyboardAvoidingView behavior='height' /> : null}
             </View>
