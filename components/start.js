@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text, Button, TextInput, ImageBackground, StyleSheet, Platform, KeyboardAvoidingView, ScrollView  } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
 export default class start extends React.Component{

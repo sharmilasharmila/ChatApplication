@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import CustomActions from './components/CustomActions';
 
 //import the screen
 import chat from './components/chat';
