@@ -1,7 +1,6 @@
 import React from "react";
-import { View, Text, Button, TextInput, ImageBackground, StyleSheet, Platform, KeyboardAvoidingView, ScrollView  } from "react-native";
+import { View, Text, Button, TextInput, ImageBackground, StyleSheet, Platform, KeyboardAvoidingView } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-
 
 export default class start extends React.Component{
     constructor(){
@@ -11,6 +10,17 @@ export default class start extends React.Component{
             background: ''
         };
     }
+
+    onPressChat = (name, backgroundColor) => {
+        if(name == '') {
+          return Alert.alert('Name Field is Empty');
+        }
+        this.props.navigation.navigate('Chat', {
+          name: `${name}`,
+          backgroundColor: `${backgroundColor}`,
+        });
+      };
+
     render(){
         return(
             <View style={styles.container}>
@@ -49,7 +59,7 @@ export default class start extends React.Component{
                         <Button
                             color='#757083'
                             title="Enter the Chat"
-                            onPress={()=>this.props.navigation.navigate('chat',{name:this.state.name, background:this.state.background})}
+                            onPress={() => this.onPressChat(this.state.name, this.state.backgroundColor)}
                         />
                     </View>
                 </ImageBackground>

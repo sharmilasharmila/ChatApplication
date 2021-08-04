@@ -1,0 +1,7 @@
+apiKey: "AIzaSyBxZ8zWwnbOhPw_7jmkys70qo9d0RMgtWw",
+authDomain: "test-4ce0d.firebaseapp.com",
+projectId: "test-4ce0d",
+storageBucket: "test-4ce0d.appspot.com",
+messagingSenderId: "934079458127",
+appId: "1:934079458127:web:9beff2b36d4112e5d6333a",
+measurementId: "G-R72MHZCXMN"
