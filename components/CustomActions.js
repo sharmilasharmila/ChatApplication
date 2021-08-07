@@ -80,7 +80,7 @@ export default class CustomActions extends React.Component{
     }
 
     onActionPress = ()=>{
-        const options=['Choose from the Library', 'Take Photo', 'Send Location', 'Cancel'];
+        const options=['Get image from library', 'Take Photo', 'Share Location', 'Cancel'];
         const cancelButtonIndex = options.length-1
         this.context.actionSheet().showActionSheetWithOptions(
             {
@@ -90,13 +90,13 @@ export default class CustomActions extends React.Component{
             async (buttonIndex) =>{
                 switch(buttonIndex){
                     case 0:
-                        console.log('user wants to pick an image');
+                        console.log('Pick an image');
                         return;
                     case 1:
-                        console.log('user wants to take a photo');
+                        console.log('Take a photo');
                         return;
                     case 2:
-                        console.log('user wants to get their location');
+                        console.log('Get their location');
                     default:
                 }
             }
